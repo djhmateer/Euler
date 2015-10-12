@@ -7,7 +7,7 @@ namespace EulerCSharp
     class Euler2
     {
         //http://basildoncoder.com/blog/project-euler-problems-1-and-2.html
-        static void Main()
+        static void Main2()
         {
             var result = Fibs().TakeWhile(f => f < 4000000).Where(f => f % 2 == 0).Sum();
             Console.WriteLine(result);
