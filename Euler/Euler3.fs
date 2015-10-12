@@ -4,25 +4,23 @@ module Euler3
 open System
 
 let Solution1() =
-    // A prime number generator - it can only divide by itself and 1
-    let primes =
-         [for i in [1..7000] do
-            if i % 2 <> 0 then
-                let divisors = [3..2..i/2-1]
-                let mutable isPrime = true
-                for j in divisors do
-                    if i % j = 0 then
-                        isPrime <- false
-                if isPrime then
-                    yield i]
+    // Prime number generator - it can only divide by itself and 1
+    let primes maxPrime =
+         [for i in [3..2..maxPrime] do
+            let divisors = [3..2..i/2-1]
+            let mutable isPrime = true
+            for j in divisors do
+                if i % j = 0 then
+                    isPrime <- false
+            if isPrime then
+                yield i]
 
-    let intToBigInt = 12345 |> bigint
-    let floatToBigInt = 10.0 |> bigint
     // largest prime factor.. notice I on the end to denote a bigint
     let num = 600851475143I
-    for i in primes do
-     // if num % (i |> bigint) = 0I then
-        // typecasting to int64..
+    let maxPrime = (int64(sqrt(double num)))
+    printfn "%A" maxPrime
+    let maxPrimeInt = int(maxPrime)
+    for i in primes maxPrimeInt do
         if num % (bigint(i)) = 0I then
             printfn "%i is a factor" i
     // 6857
@@ -99,6 +97,29 @@ let S4() =
         Seq.max factors
 
     printfn "%A" (big_number_factors(200L))
-S4()
+//S4()
+
+let output x = printfn "%A" x
+
+// The prime divisors of 13195 are 5, 7, 13 and 29.
+let S5() =
+    let divisorsOf n =
+        // make a sequence 2,3,4,5.. up to sqrt of n
+        [2L..int64 (sqrt(double(n)))] 
+        // get every number in the sequence which divides by n
+        |> Seq.filter (fun x -> n % x = 0L)
+
+    let isPrime n = divisorsOf(n) |> Seq.length = 0
+
+    let findMaxPrimeFactorOf n =
+        divisorsOf n
+        |> Seq.filter isPrime
+        |> Seq.max
+  
+    let maxPrime = findMaxPrimeFactorOf(600851475143L)
+    let maxPrime = findMaxPrimeFactorOf(13195L)
+
+    printfn "%A" maxPrime
+S5()
 
 
